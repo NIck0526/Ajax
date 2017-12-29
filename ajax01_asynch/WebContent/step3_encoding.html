@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	var xhr;
+	function startRequest() {
+		var nick = document.frm.nick;
+		xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = callback;
+		nick=escape(encodeURIComponent(nick.value));//escape()생략
+		xhr.open("get", "EncodingAjaxServlet?nick="+nick);
+		xhr.send(null);
+		
+	}
+	function callback() {
+		if(xhr.readyState==4){
+			if(xhr.status==200){
+				var text=decodeURIComponent(xhr.responseText);
+				document.getElementById("resultView").innerHTML =
+				"<font color='blue' size='5'>"+text+"</font>";
+			}//if
+			
+		}else{ // 2 or 3
+			document.getElementById("resultView").innerHTML=
+				"<img src='./img/a.gif'>";
+		}
+	}
+</script>
+</head>
+<body>
+<h2>GET 바식일떄의 인코딩 처리하기</h2><p>
+<form name="frm">
+닉네임: <input type="text" name="nick">
+<input type="button" value="닉네임 보내기" onclick="startRequest()">
+<div id="resultView"></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+
+	var xhr;
+	var id;
+	
+ function startRequest() { //요청을 수행하는 기능
+	 //1. xhr 객체를 생성
+	 xhr = new XMLHttpRequest();
+ 	 id = document.idcheck.userId;
+ 	 //alert(id.value); // val() 은 Jquery $(----어쩌구)
+	 
+ 	 //2. 서버가 실행한 후 결과를 받아올 함수를 등록
+ 	 xhr.onreadystatechange = callback;
+ 	 
+ 	 //3. 서버에 요청을 실행할 페이지를 등록
+ 	 //xhr.open("get","IdCheckServlet?id="+id.value,true); get방식으로 전달 send(null)
+ 	 xhr.open("post","IdCheckServlet"); //당근 true 생략 가능
+ 	 
+ 	 //이 부분이 하나 더 추가된다.
+ 	 xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded;charset=utf-8"); //반드시 Open 뒤.
+ 	 
+ 	 
+ 	 //4. 서버로 전송
+ 	 //xhr.send(null); get방식으로 전달 send(null)
+ 	 xhr.send("id="+id.value);
+ }
+ 
+ function callback() { // 응답시 실행되어져야 하는 로직을 작성
+	 if(xhr.readyState==4){
+		 if(xhr.status==200){
+			// alert("responseeeeeeeeeeeeeeee")
+			// text로 넘어온 값을 받아보자
+			var text = xhr.responseText;
+			//alert(text)
+			if(text=="true"){
+				alert(id.value+"사용 불가")
+				id.value="";
+				id.focus();
+				
+			}else{
+				alert(id.value+"사용 가능")
+				document.idcheck.userPass.focus();
+			}
+		 }
+	 }
+	
+}
+
+</script>
+</head>
+<body>
+<h2 align="center">ID 중복 체크...</h2><p>
+<form name="idcheck">
+아이디 :: <input type="text" name="userId" required="required">
+<input type="button" value="중복확인" onClick="startRequest()"><p>
+패스워드 :: <input type="password" name="userPass">
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

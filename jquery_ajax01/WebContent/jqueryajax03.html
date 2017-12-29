@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="./js/jquery-3.2.1.js"></script>
+<script type="text/javascript">
+	$('document').ready(function () {
+		$('#name').change(function () {
+			//어떤 것도 선택하지 않았다면,,,
+			if($(this).val()==""){
+				alert("한명은 선택 해주세용");
+				return;
+			}
+			$.ajax({ // 이때부터 ajax기술 들어갑니다..
+				type:"post",
+				url:"AddressServlet",
+				data:"name="+$(this).val(),
+				
+				success:function(data){ // 꼭 data라고 넣을 필요는 없음. (특정 가수가 사는 주소)
+					$('#addressView').html(data);
+				}//success
+				
+			}); // ajax
+		});//change
+		
+	});//ready
+</script>
+</head>
+<body>
+<select id="name">
+	<option value="">===== 뮤지션 ===== </option>
+	<option value="이적">이적</option>
+	<option value="김동률">김동률</option>
+	<option value="김범수">김범수</option>
+	<option value="김광석">김광석</option>
+
+
+</select>
+<span id="addressView"></span>	
+</body>
+</html>

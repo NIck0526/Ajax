@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	var xhr;
+
+function startRequest() {
+	xhr= new XMLHttpRequest();
+	//alert(xhr.readyState); // 0 이 나올거야 통신전이라..
+	xhr.onreadystatechange = callback;
+	//alert(xhr.readyState); // 0
+	xhr.open("get","GetCountServlet?id=ajax&&pass=1234");
+	//alert(xhr.readyState); // 1
+	xhr.send(null); //1
+}
+function callback() {
+	//xhr 객체가 서버에서 브라우저로 완전히 안착했고, 
+	//서버 실행 결과가 성공적으로 끝났다면 결과를 확인...
+	if(xhr.readyState==4){
+		if(xhr.status==200){
+			//결과를 꺼내봐서 span영역에 뿌려보세요...
+			var text = xhr.responseText;
+			document.getElementById("resultView").innerHTML = text;
+			
+			
+		}
+	}
+}
+</script>
+</head>
+<body>
+<h2>get 방식으로 카운트 뿌리기</h2>
+<input type="button" value="카운트 올리기" onclick="startRequest()">
+<span id="resultView" ></span>
+
+</body>
+</html>
